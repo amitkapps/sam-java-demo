@@ -24,7 +24,7 @@ public class EchoApi implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         context.getLogger().log(String.valueOf(input));
         context.getLogger().log("context received:");
         context.getLogger().log(String.valueOf(context));
-
+        var message =  input.getQueryStringParameters().get("param");
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -34,7 +34,11 @@ public class EchoApi implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 .withHeaders(headers);
         try {
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-            String output = String.format("{ \"message\": \"hello\", \"location\": \"%s\", \"input\": \"%s\", \"context\": \"%s\" }", pageContents, String.valueOf(input), String.valueOf(context));
+            String output = String.format(new StringBuilder().append("{ \"message\": \"").append(message).append("\",")
+                    .append("\"location\": \"%s\", ")
+                    .append("\"input\": \"%s\", ")
+                    .append("\"context\": \"%s\" }")
+                    .toString(), pageContents, String.valueOf(input), String.valueOf(context));
 
             return response
                     .withStatusCode(200)
