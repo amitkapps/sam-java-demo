@@ -2,6 +2,7 @@
 
 ## Simple java lambda - API
 1. `sam init`
+2. `sam build`
 2. `sam deploy --guided --profile matsonlabs`
 3. `curl https://<api-id>.execute-api.us-west-2.amazonaws.com/Prod/hello/`
 4. watch the logs 
