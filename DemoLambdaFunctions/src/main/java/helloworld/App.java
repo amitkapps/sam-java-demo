@@ -19,6 +19,12 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
+        context.getLogger().log("input received:");
+        context.getLogger().log(String.valueOf(input));
+        context.getLogger().log("context received:");
+        context.getLogger().log(String.valueOf(context));
+
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("X-Custom-Header", "application/json");
@@ -27,7 +33,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
         try {
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-            String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
+            String output = String.format("{ \"message\": \"hello\", \"location\": \"%s\", \"input\": \"%s\", \"context\": \"%s\" }", pageContents, String.valueOf(input), String.valueOf(context));
 
             return response
                     .withStatusCode(200)
